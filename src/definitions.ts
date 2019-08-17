@@ -3,12 +3,16 @@ export type Token = {
     type:
     "operator" | "keyword" | "terminator" | "identifier" | "left-paren" |
     "right-paren" | "pipe" | "left-curly" | "right-curly" | "string" | "number" |
-    "comma" | "boolean";
+    "comma" | "boolean" | "comment-begin" | "comment-end";
     value: string;
 }
 
 export interface Statement {
     type: string;
+}
+
+export interface NopStatement extends Statement {
+    type: "nop";
 }
 
 export interface SmolFunction extends Statement {
@@ -67,6 +71,7 @@ export interface SmolIdentifier extends Statement {
 }
 
 export type Instruction =
+    NopStatement |
     SmolFunction |
     FunctionCall |
     SmolNumber |

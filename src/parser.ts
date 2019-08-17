@@ -197,7 +197,19 @@ const parseStatement = (tokens: Token[], terminator?: Token): Instruction => {
             break;
         }
 
-        throw new Error(`Unexpected token: ${token}`);
+        if (token.type === "comment-begin") {
+            try {
+                while (tokens.shift()!.type !== "comment-end") {}
+                output.push({
+                    type: "nop"
+                });
+            } catch (e) {
+                throw new Error(`The comment was never terminated`);
+            }
+            break;
+        }
+
+        throw new Error(`Unexpected token: ${token.type}`);
     }
 
     while (operator.length > 0) {

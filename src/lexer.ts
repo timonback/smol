@@ -143,10 +143,15 @@ export const lexer = (code: string) => {
 
         if (isOperator(char)) {
             const fullOp = `${char}${extractOperator(chars)}`;
-            if (!isOperator(fullOp)) {
+            if (isOperator(fullOp)) {
+                tokens.push({ type: "operator", value: fullOp });
+            } else if (fullOp === "/*" || fullOp === "/**") {
+                tokens.push({ type: "comment-begin", value: fullOp });
+            } else if (fullOp === "*/" || fullOp === "**/") {
+                tokens.push({ type: "comment-end", value: fullOp });
+            } else {
                 throw new Error(`Unknown operator: ${fullOp}`);
             }
-            tokens.push({ type: "operator", value: fullOp });
             continue;
         }
 

@@ -2,6 +2,9 @@
 export const smolFib = `
 let count = 10;
 
+/* This is a comment
+ over multiple lines */
+
 let fib = |n| {
     if n < 1 { return 0; };
     if n == 1 { return 1; };

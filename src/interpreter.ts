@@ -86,6 +86,10 @@ export const interpreter = (instruction: AST | Instruction, mem: Mem): Value => 
             return val;
         }
 
+        if (instruction.type === "nop") {
+            return { val: undefined };
+        }
+
         if (instruction.type === "string" || instruction.type === "boolean" || instruction.type === "number") {
             return { val: instruction.value };
         }

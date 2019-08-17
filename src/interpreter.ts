@@ -76,48 +76,59 @@ const interpretFnCall = (call: FunctionCall, mem: Mem): Value => {
 };
 
 export const interpreter = (instruction: AST | Instruction, mem: Mem): Value => {
-    if (instruction instanceof Array) {
-        let val: Value = { val: undefined };
-        for (const instr of instruction) {
-            val = interpreter(instr, mem);
-            if (val.isReturn) { return val; }
+    try {
+        if (instruction instanceof Array) {
+            let val: Value = { val: undefined };
+            for (const instr of instruction) {
+                val = interpreter(instr, mem);
+                if (val.isReturn) { return val; }
+            }
+            return val;
         }
-        return val;
-    }
 
-    if (instruction.type === "string" || instruction.type === "boolean" || instruction.type === "number") {
-        return { val: instruction.value };
-    }
-
-    if (instruction.type === "function") {
-        return { val: instruction };
-    }
-
-    if (instruction.type === "variable-decleration") {
-        if (mem[instruction.name]) throw new Error(`Variable ${instruction.name} is already defined`);
-        mem[instruction.name] = { memType: instruction.varType, val: undefined };
-        return { val: undefined };
-    }
-
-    if (instruction.type === "function-call") {
-        return interpretFnCall(instruction, mem);
-    }
-
-    if (instruction.type === "return") {
-        return { isReturn: true, val: interpreter(instruction.exp, mem).val };
-    }
-
-    if (instruction.type === "if") {
-        const result = interpreter(instruction.condition, mem);
-        if (result.val) {
-            return interpreter(instruction.body, { ...mem });
+        if (instruction.type === "string" || instruction.type === "boolean" || instruction.type === "number") {
+            return { val: instruction.value };
         }
-        return { val: undefined };
+
+        if (instruction.type === "function") {
+            return { val: instruction };
+        }
+
+        if (instruction.type === "variable-decleration") {
+            if (mem[instruction.name]) throw new Error(`Variable ${instruction.name} is already defined`);
+            mem[instruction.name] = { memType: instruction.varType, val: undefined };
+            return { val: undefined };
+        }
+
+        if (instruction.type === "function-call") {
+            return interpretFnCall(instruction, mem);
+        }
+
+        if (instruction.type === "return") {
+            return { isReturn: true, val: interpreter(instruction.exp, mem).val };
+        }
+
+        if (instruction.type === "if") {
+            const result = interpreter(instruction.condition, mem);
+            if (result.val) {
+                return interpreter(instruction.body, { ...mem });
+            }
+            return { val: undefined };
+        }
+
+        if (instruction.type === "identifier") {
+            return { val: mem[instruction.name].val!.val! }
+        }
+
+    } catch (error) {
+        const instructionReadable = JSON.stringify(instruction)
+        const memReadable = JSON.stringify(mem);
+        let e = new Error(`Rethrowing on ${instructionReadable} WITH ${memReadable}:\n${error.message}`)
+        //e.original = error
+        e.stack = e.stack!.split('\n').slice(0, 2).join('\n') + '\n' +
+            error.stack
+        throw e
     }
 
-    if (instruction.type === "identifier") {
-        return { val: mem[instruction.name].val!.val! }
-    }
-
-    throw new Error(`Unkown instruction ${inspect(instruction, false, 100)}`);
+    throw new Error(`Unknown instruction ${inspect(instruction, false, 100)}`);
 };

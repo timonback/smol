@@ -117,7 +117,7 @@ const parseStatement = (tokens: Token[], terminator?: Token): Instruction => {
                 continue;
             }
 
-            throw new Error(`Unkown keyword: ${token.value}`);
+            throw new Error(`Unknown keyword: ${token.value}`);
         }
 
         if (token.type === "identifier") {

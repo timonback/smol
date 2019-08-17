@@ -144,7 +144,7 @@ export const lexer = (code: string) => {
         if (isOperator(char)) {
             const fullOp = `${char}${extractOperator(chars)}`;
             if (!isOperator(fullOp)) {
-                throw new Error(`Unkown operator: ${fullOp}`);
+                throw new Error(`Unknown operator: ${fullOp}`);
             }
             tokens.push({ type: "operator", value: fullOp });
             continue;

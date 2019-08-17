@@ -17,45 +17,45 @@ const interpretFnCall = (call: FunctionCall, mem: Mem): Value => {
     }
 
     if (call.function === "<") {
-        const left = interpreter(call.args.slice(-1)[0], mem)!.val;
-        const right = interpreter(call.args.slice(-2)[0], mem)!.val;
+        const left = interpreter(call.args.slice(-1)[0]!, mem)!.val;
+        const right = interpreter(call.args.slice(-2)[0]!, mem)!.val;
 
         return { val: left < right };
     }
 
     if (call.function === ">") {
-        const left = interpreter(call.args.slice(-1)[0], mem)!.val;
-        const right = interpreter(call.args.slice(-2)[0], mem)!.val;
+        const left = interpreter(call.args.slice(-1)[0]!, mem)!.val;
+        const right = interpreter(call.args.slice(-2)[0]!, mem)!.val;
         return { val: left > right };
     }
 
     if (call.function === "==") {
-        const left = interpreter(call.args.slice(-1)[0], mem)!.val;
-        const right = interpreter(call.args.slice(-2)[0], mem)!.val;
+        const left = interpreter(call.args.slice(-1)[0]!, mem)!.val;
+        const right = interpreter(call.args.slice(-2)[0]!, mem)!.val;
         return { val: left === right };
     }
 
     if (call.function === "+") {
-        const left = interpreter(call.args.slice(-1)[0], mem)!.val;
-        const right = interpreter(call.args.slice(-2)[0], mem)!.val;
+        const left = interpreter(call.args.slice(-1)[0]!, mem)!.val;
+        const right = interpreter(call.args.slice(-2)[0]!, mem)!.val;
         return { val: left + right };
     }
 
     if (call.function === "-") {
-        const left = interpreter(call.args.slice(-1)[0], mem)!.val;
-        const right = interpreter(call.args.slice(-2)[0], mem)!.val;
+        const left = interpreter(call.args.slice(-1)[0]!, mem)!.val;
+        const right = interpreter(call.args.slice(-2)[0]!, mem)!.val;
         return { val: left - right };
     }
 
     if (call.function === "*") {
-        const left = interpreter(call.args.slice(-1)[0], mem)!.val;
-        const right = interpreter(call.args.slice(-2)[0], mem)!.val;
+        const left = interpreter(call.args.slice(-1)[0]!, mem)!.val;
+        const right = interpreter(call.args.slice(-2)[0]!, mem)!.val;
         return { val: left * right };
     }
 
     if (call.function === "/") {
-        const left = interpreter(call.args.slice(-1)[0], mem)!.val;
-        const right = interpreter(call.args.slice(-2)[0], mem)!.val;
+        const left = interpreter(call.args.slice(-1)[0]!, mem)!.val;
+        const right = interpreter(call.args.slice(-2)[0]!, mem)!.val;
         return { val: left / right };
     }
 

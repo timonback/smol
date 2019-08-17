@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/src/smol/index.ts",
+            "program": "${workspaceFolder}/src/index.ts",
             "outFiles": [
                 "${workspaceFolder}/dist/**/*.js"
             ]
